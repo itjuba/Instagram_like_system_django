@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content%}
+{% for product in product.all%}
+
+
+<div class="container">
+<div class="row pt-3">
+    <div class="col-2" onclick="window.location='{% url 'detail' product.id %}';" style="cursor : pointer;">
+     <img src="{{product.image.url}}" class="img-fluid " alt="">
+    </div>
+    <div class="col-6 " >
+        <h1 class="textcolor">{{ product.title}}</h1>
+        <p>{{product.summary}}</p>
+    </div>
+    {% if user.is_authenticated %}
+ <div class="col-4">
+        {% csrf_token%}
+        <a class="like" href="#"> <button class=" btn btn-warning btn-dark likes-button " data-id="{{ product.id}}"  target="{{product.id}}" >
+            <i class="fa fa-heart" aria-hidden="true"></i>
+    <strong class="target" >{{product.votes_total}}</strong></button></a>
+
+    </div>
+
+      {% else%}
+     <a class="like" href="#"> <button onclick="window.location.href = '{% url 'login' %}';" class=" btn btn-warning btn-dark likes-button " data-id="{{ product.id}}"  target="{{product.id}}" >
+            <i class="fa fa-heart" aria-hidden="true"></i>
+ <strong class="target" >{{product.votes_total}}</strong></button></a>
+      {% endif%}
+
+
+
+    </div>
+</div>
+
+
+{% endfor%}
+
+{% endblock%}

@@ -1,0 +1,29 @@
+h3 {
+	display: inline-block;
+	font-size: 12px;
+	text-transform: uppercase;
+	font-weight: bold;
+	margin-right: 15px;
+}
+
+button {
+	background: none;
+	border: 1px solid black;
+	color: black;
+	text-transform: uppercase;
+	font-size: 12px;
+	padding: 5px 10px;
+}
+
+.like button {
+	border: none;
+}
+
+
+.textcolor{
+  color : black ;
+  font-size: 30px ;
+  font-family: 'Pacifico', cursive;
+  /* margin-top:  16% ; */
+   /* text-align:  left; */
+}

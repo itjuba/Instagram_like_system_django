@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+<div class="container">
+
+<div class="row">
+    <div class="col-2">
+        <img src="{{ product.icon.url}}"  width="200" height="200" alt="">
+    </div>
+    <div class="col-8">
+        <a href="{{ product.url }}"><h1 class="textcolor">{{product.title}}</h1></a>
+    </div>
+</div>
+
+<br>
+
+<div class="row">
+    <div class="col-8">
+        <img src="{{product.image.url}}"width="700" alt="">
+    </div>
+    <div class="col-2">
+          {% csrf_token %}
+        <a> <button class=" btn btn-warning btn-dark likes-button " data-id="{{ product.id}}"  target="{{product.id}}" > <span class="oi oi-thumb-up"></span> Upvote  <strong class="target" >{{product.votes_total}}</strong></button></a>
+    </div>
+</div>
+
+<div class="row pt-1">
+    <div class="col-4">
+      <h4> Hunted by {{ product.hunter.username}}</h4>
+    </div>
+    <div class="col-3 text-right">
+        <h4 ><span class="oi oi-clock"></span> {{ product.pub_date_fix}}</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+       <p> {{product.body}}</p>
+    </div>
+</div>
+
+
+
+</div>
+{% endblock%}

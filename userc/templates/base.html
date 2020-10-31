@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+{%  load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'open-iconic/font/css/open-iconic-bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/css/css.css'%}">
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <style>
+
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;wget  --no-check-certificate -q  https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+
+        a.{
+        color : #000000
+        font-size : 3em;
+        }
+
+        .heart i.fa-heart{
+            color : #f44336
+        }
+
+        .heart {
+            animation : heart 0.5s linear;
+        }
+        @keyframes heart{
+        0%{
+        transform : rotate(0deg) scale(1.7):
+        }
+        40%{
+        transform : rotate(0deg) scale(1)
+        }
+        41%{
+        transform : rotate(360deg) scale(1)
+        }
+        100%{
+        transform : rotate(0deg) scale(1)}
+        }
+
+
+      }
+    </style>
+    <title>ProductHUnt</title>
+</head>
+<body>
+  <header>
+      <div class="container">
+   <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+  <a class="navbar-brand" href="{% url 'home' %}">
+       <img src="{% static 'p.png' %}"  class="d-inline-block align-top" width="35" height="35" alt="">
+     Product Hunt </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse  navbar-collapse" id="navbarCollapse">
+
+    <ul class="navbar-nav ml-auto ">{% if user.is_authenticated %}
+        <li class="nav-item">
+        <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">Logout </a>
+            <form id="logout" method="POST" action="{% url 'logout' %}" >
+                 {% csrf_token %}
+                <input type="hidden">
+            </form>
+               <li class="nav-item">
+        <a class="nav-link" href="{% url 'addprod' %}"><span class="oi oi-plus"></span></a>
+      </li>
+      </li>
+      {% else%}
+
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'signup' %}">Signup </a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'login' %}">Login</a>
+      </li>
+      {% endif%}
+
+    </ul>
+  </div>
+</nav>
+          </div>
+</header>
+<main role="main">
+
+    {% block content%}
+
+    {% endblock%}
+
+</main>
+
+<footer class="text-muted">
+  <div class="container">
+  <p class="text-center"> &copy; ATTIG NADJIB {% now "Y" %}</p>
+  </div>
+</footer>
+
+
+      <script>
+
+let color = Cookies.get("color");
+if (color) {
+$(".likes-button").toggleClass(color);
+}
+
+$(document).ready(function() {
+      $('.likes-button').click(function(){
+ var csrftoken = $('[name="csrfmiddlewaretoken"]').val();
+ var el= this;
+ var ajaxdata = $(this).attr('data-id');
+ var ajaxstring = $(this).attr('string');
+    console.log(ajaxstring)
+
+      $.ajax({
+               type: "POST",
+               url: '/ajax/upvote/',
+               data: JSON.stringify({'product_id' : ajaxdata,'string': ajaxstring}),
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                "X-CSRFToken": csrftoken
+            },
+
+               success: function(response) {
+                var up = response['likes']
+                var string = response['string']
+                console.log(string);
+                   console.log(up)
+                       $(el).find('.target').html(up);
+                        $(el).find('.string').html(string);
+                    if (Cookies.get("color")) {
+                    $(".likes-button").toggleClass(Cookies.get("color"));
+                    Cookies.remove("color");
+                    } else {
+                    Cookies.set("color", "heart");
+                    $(".likes-button").toggleClass("heart");
+                    }
+
+
+                },
+                error: function(rs, e) {
+                       alert(rs.responseText);
+                }
+          });
+    })
+    });
+</script>
+  </script>
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% extends 'base.html'%}
+
+{%  load static %}
+
+{% block content%}
+
+<br> <br> <br>
+{% if error %}
+<div class="container">
+    <div class="alert alert-danger">
+        {{ error }}
+    </div>
+</div>
+{% endif %}
+
+<div class="container">
+     <h1><span class="fa fa-sign-in"></span> Login</h1>
+    <div class="row">
+         <form action="{% url 'login' %}" method="post">
+    <div class="col-sm-6 col-12">
+
+      {% csrf_token %}
+      {{form}}
+        <button type="submit" class="btn btn-warning btn-lg">Login</button>
+
+        </div>
+         </form>
+         <p>Already have an account? <a href="/login">Login</a></p>
+        <p>Or go <a href="/">home</a>.</p>
+    </div>
+    </div>
+
+{% endblock%}
